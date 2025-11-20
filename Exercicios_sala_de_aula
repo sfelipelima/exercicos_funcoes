@@ -1,0 +1,184 @@
+#                                                                                    Exercicios feitos em sala de aula
+
+
+
+
+# 1. Classificação de Idade
+# Peça a idade do usuário e classifique-o de acordo com a tabela:
+# Menor de 12 anos → Criança
+# Entre 12 e 17 anos → Adolescente
+# 18 anos ou mais → Adulto
+
+
+#def classificar_idade(idade):
+#    return 'Criança'
+#    if idade >= 12 and idade <= 17:
+#        return 'Adolescente'
+#    elif idade >= 18 and idade <= 100:
+#        return 'Adulto'
+#    else:
+#        return 'Idade inválida'
+
+
+# 2. Maior de Dois Números
+# Solicite dois números ao usuário e exiba o maior deles. Caso sejam iguais, informe isso.
+
+
+#def comparador_numeros(numero, numero2):
+#    if numero > numero2:
+#        return '{numero} é maior que {numero2}'
+#    elif numero == numero2:
+#        return '{numero} é igual a {numero2}'
+#    else:
+#     return '{numero} é menor que {numero2}'
+
+
+# 3. Verificação de Vogal ou Consoante
+# Peça ao usuário para digitar uma letra e informe se é uma vogal (a, e, i, o, u) ou consoante.
+
+
+
+
+#def vogal_consoante(letra):
+#    if letra == 'a' or letra == 'e' or letra == 'i' or letra == 'o' or letra == 'u':
+#        return 'A letra digitada é uma vogal.'
+#    else:
+#        return 'A letra digitada é uma consoante.'
+
+
+# 4. Comparação de Senhas
+# Solicite ao usuário que defina uma senha e, em seguida, peça para confirmá-la. Caso as senhas sejam iguais, exiba “Acesso permitido”, senão, exiba “Senhas não coincidem”.
+
+
+#def comparacao_senha(senha1, senhaConfirmada):
+#    if(senha1 == senhaConfirmada):
+#        return 'Acesso permitido!'
+#    else:
+#        return 'Acesso negado!'
+
+
+#                                                                                    Testes unitários dos exercícios
+
+import unittest
+from exercicios1 import *
+
+
+class TesteUnitario(unittest.TestCase):
+    #def testar_classificar_idade(self):
+    #    self.assertEqual(classificar_idade(5), 'Criança')
+    #    self.assertEqual(classificar_idade(15), 'Adolescente')
+    #    self.assertEqual(classificar_idade(35), 'Adulto')
+    #    self.assertEqual(classificar_idade(115), 'Idade inválida')
+       
+    #def comparador_numeros(self):
+       #    self.assertEqual(comparador_numeros(10,20), '10 é menor que 20')
+    #    self.assertEqual(comparador_numeros(20,10), '20 é maior que 10')
+    #    self.assertEqual(comparador_numeros(10,10), '10 é igual a 10')
+       
+    #def identificar_vogal_consoante(self):
+    #    self.assertEqual(vogal_consoante('a'), 'A letra digitada é uma vogal.')
+    #    self.assertEqual(vogal_consoante('b'), 'A letra digitada é uma consoante.')
+   
+    #def comparar_senhas(self):
+    #    self.assertEqual(comparacao_senha(1234, 1234), 'Acesso permitido!')
+    #    self.assertEqual(comparacao_senha(1234, 123), 'Acesso negado!')
+   
+    if __name__ == '__main__':
+        unittest.main()
+
+
+
+
+
+
+
+#                                                                                    Exercícios do dia 14/11
+
+
+1- def primos_no_intervalo(a, b):
+    primos = []
+    for num in range(a, b + 1):
+        if num < 2:
+            continue
+        for i in range(2, int(num ** 0.5) + 1):
+            if num % i == 0:
+                break
+        else:
+            primos.append(num)
+    return primos
+
+
+2 - def ordenar_sem_repeticao(lista):
+    return sorted(set(lista))
+
+
+
+3 - def soma_digitos(n):
+    return sum(int(d) for d in str(abs(n)))
+
+
+
+4 - def eh_palindromo(texto):
+    filtrado = ''.join(c.lower() for c in texto if c.isalnum())
+    return filtrado == filtrado[::-1]
+
+
+
+5 - def frequencia_palavras(texto):
+    palavras = texto.lower().split()
+    freq = {}
+    for p in palavras:
+        freq[p] = freq.get(p, 0) + 1
+    return freq
+
+
+
+
+6 - def media_lista(lista):
+    if not lista:
+        return None
+    return sum(lista) / len(lista)
+
+ 
+
+#                                                                                    Testes unitários dos exercícios
+
+
+
+1 - def test_primos_no_intervalo(self):
+    self.assertEqual(primos_no_intervalo(1, 10), [2, 3, 5, 7])
+    self.assertEqual(primos_no_intervalo(10, 20), [11, 13, 17, 19])
+    self.assertEqual(primos_no_intervalo(0, 1), [])
+
+
+
+2 - def test_ordenar_sem_repeticao(self):
+    self.assertEqual(ordenar_sem_repeticao([3, 1, 2, 1]), [1, 2, 3])
+    self.assertEqual(ordenar_sem_repeticao([5, 5, 5]), [5])
+    self.assertEqual(ordenar_sem_repeticao([]), [])
+
+
+3 - def test_soma_digitos(self):
+    self.assertEqual(soma_digitos(123), 6)
+    self.assertEqual(soma_digitos(0), 0)
+    self.assertEqual(soma_digitos(-47), 11)
+
+
+
+4 - def test_eh_palindromo(self):
+    self.assertTrue(eh_palindromo('Ana'))
+    self.assertTrue(eh_palindromo('Ame a ema'))
+    self.assertFalse(eh_palindromo('Python'))
+
+
+
+5 - def test_frequencia_palavras(self):
+    self.assertEqual(frequencia_palavras('O gato e o rato'), {'o': 2, 'gato': 1, 'e': 1, 'rato': 1})
+    self.assertEqual(frequencia_palavras('banana banana uva'), {'banana': 2, 'uva': 1})
+    self.assertEqual(frequencia_palavras(''), {})
+
+
+6 - def test_media_lista(self):
+    self.assertEqual(media_lista([1, 2, 3]), 2.0)
+    self.assertEqual(media_lista([7]), 7.0)
+    self.assertEqual(media_lista([]), None)
