@@ -1,4 +1,4 @@
-#                                                                                    Exercicios feitos em sala de aula
+#                                                                                    Exercícios Basicos Funções
 
 
 
@@ -57,7 +57,7 @@
 #        return 'Acesso negado!'
 
 
-#                                                                                    Testes unitários dos exercícios
+#                                                                                    Testes Exercícios Basicos Funções
 
 import unittest
 from exercicios1 import *
@@ -92,7 +92,7 @@ class TesteUnitario(unittest.TestCase):
 
 
 
-#                                                                                    Exercícios do dia 14/11
+#                                                                                    Exercícios Última aula
 
 
 1- def primos_no_intervalo(a, b):
@@ -141,7 +141,7 @@ class TesteUnitario(unittest.TestCase):
 
  
 
-#                                                                                    Testes unitários dos exercícios
+#                                                                                    Testes Exercícios Última aula
 
 
 
