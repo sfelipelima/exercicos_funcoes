@@ -1,0 +1,92 @@
+#                                                                                    Exercícios Basicos Funções
+
+
+
+
+# 1. Classificação de Idade
+# Peça a idade do usuário e classifique-o de acordo com a tabela:
+# Menor de 12 anos → Criança
+# Entre 12 e 17 anos → Adolescente
+# 18 anos ou mais → Adulto
+
+
+#def classificar_idade(idade):
+#    return 'Criança'
+#    if idade >= 12 and idade <= 17:
+#        return 'Adolescente'
+#    elif idade >= 18 and idade <= 100:
+#        return 'Adulto'
+#    else:
+#        return 'Idade inválida'
+
+
+# 2. Maior de Dois Números
+# Solicite dois números ao usuário e exiba o maior deles. Caso sejam iguais, informe isso.
+
+
+#def comparador_numeros(numero, numero2):
+#    if numero > numero2:
+#        return '{numero} é maior que {numero2}'
+#    elif numero == numero2:
+#        return '{numero} é igual a {numero2}'
+#    else:
+#     return '{numero} é menor que {numero2}'
+
+
+# 3. Verificação de Vogal ou Consoante
+# Peça ao usuário para digitar uma letra e informe se é uma vogal (a, e, i, o, u) ou consoante.
+
+
+
+
+#def vogal_consoante(letra):
+#    if letra == 'a' or letra == 'e' or letra == 'i' or letra == 'o' or letra == 'u':
+#        return 'A letra digitada é uma vogal.'
+#    else:
+#        return 'A letra digitada é uma consoante.'
+
+
+# 4. Comparação de Senhas
+# Solicite ao usuário que defina uma senha e, em seguida, peça para confirmá-la. Caso as senhas sejam iguais, exiba “Acesso permitido”, senão, exiba “Senhas não coincidem”.
+
+
+#def comparacao_senha(senha1, senhaConfirmada):
+#    if(senha1 == senhaConfirmada):
+#        return 'Acesso permitido!'
+#    else:
+#        return 'Acesso negado!'
+
+
+#                                                                                    Testes Exercícios Basicos Funções
+
+import unittest
+from exercicios1 import *
+
+
+class TesteUnitario(unittest.TestCase):
+    #def testar_classificar_idade(self):
+    #    self.assertEqual(classificar_idade(5), 'Criança')
+    #    self.assertEqual(classificar_idade(15), 'Adolescente')
+    #    self.assertEqual(classificar_idade(35), 'Adulto')
+    #    self.assertEqual(classificar_idade(115), 'Idade inválida')
+       
+    #def comparador_numeros(self):
+       #    self.assertEqual(comparador_numeros(10,20), '10 é menor que 20')
+    #    self.assertEqual(comparador_numeros(20,10), '20 é maior que 10')
+    #    self.assertEqual(comparador_numeros(10,10), '10 é igual a 10')
+       
+    #def identificar_vogal_consoante(self):
+    #    self.assertEqual(vogal_consoante('a'), 'A letra digitada é uma vogal.')
+    #    self.assertEqual(vogal_consoante('b'), 'A letra digitada é uma consoante.')
+   
+    #def comparar_senhas(self):
+    #    self.assertEqual(comparacao_senha(1234, 1234), 'Acesso permitido!')
+    #    self.assertEqual(comparacao_senha(1234, 123), 'Acesso negado!')
+   
+    if __name__ == '__main__':
+        unittest.main()
+
+
+
+
+
