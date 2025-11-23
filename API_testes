@@ -1,0 +1,145 @@
+from fastapi import FastAPI, HTTPException, status
+from pydantic import BaseModel
+from typing import Dict
+from uuid import uuid4
+
+app = FastAPI(title="API de Tarefas", version="1.0.0")
+
+
+
+class TarefaBase(BaseModel):
+    titulo: str
+    descricao: str = ""
+    concluida: bool = False
+
+
+class Tarefa(TarefaBase):
+    id: str
+
+
+db_tarefas: Dict[str, Tarefa] = {}
+
+
+
+@app.get("/")
+def read_root():
+    return {"mensagem": "API funcionando corretamente!"}
+
+
+@app.post("/tarefas", status_code=status.HTTP_201_CREATED, response_model=Tarefa)
+def criar_tarefa(tarefa: TarefaBase):
+    if len(tarefa.titulo.strip()) < 3:
+        raise HTTPException(status_code=400, detail="Título inválido. Mínimo de 3 caracteres.")
+
+    nova_id = str(uuid4())
+    nova_tarefa = Tarefa(id=nova_id, **tarefa.dict())
+    db_tarefas[nova_id] = nova_tarefa
+    return nova_tarefa
+
+
+@app.get("/tarefas", response_model=list[Tarefa])
+def listar_tarefas():
+    return list(db_tarefas.values())
+
+
+@app.get("/tarefas/{id}", response_model=Tarefa)
+def obter_tarefa(id: str):
+    tarefa = db_tarefas.get(id)
+    if not tarefa:
+        raise HTTPException(status_code=404, detail="Tarefa não encontrada.")
+    return tarefa
+
+
+@app.put("/tarefas/{id}", response_model=Tarefa)
+def atualizar_tarefa(id: str, tarefa: TarefaBase):
+    if id not in db_tarefas:
+        raise HTTPException(status_code=404, detail="Tarefa não encontrada.")
+
+    if len(tarefa.titulo.strip()) < 3:
+        raise HTTPException(status_code=400, detail="Título inválido. Mínimo de 3 caracteres.")
+
+    tarefa_atualizada = Tarefa(id=id, **tarefa.dict())
+    db_tarefas[id] = tarefa_atualizada
+    return tarefa_atualizada
+
+
+@app.delete("/tarefas/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def deletar_tarefa(id: str):
+    if id not in db_tarefas:
+        raise HTTPException(status_code=404, detail="Tarefa não encontrada.")
+    del db_tarefas[id]
+
+
+
+#                                                                   Teste unitário API
+
+
+import unittest
+from uuid import UUID
+
+from main import (
+    criar_tarefa,
+    listar_tarefas,
+    obter_tarefa,
+    atualizar_tarefa,
+    deletar_tarefa,
+    TarefaBase,
+    db_tarefas
+)
+
+
+class TesteAPI(unittest.TestCase):
+
+    def setUp(self):
+        """Limpa o banco de dados antes de cada teste."""
+        db_tarefas.clear()
+
+    def test_criar_tarefa(self):
+        tarefa = criar_tarefa(TarefaBase(titulo="Lavar a louça", descricao="Testando", concluida=False))
+
+ 
+        self.assertEqual(tarefa.titulo, "Lavar a louça")
+        self.assertEqual(tarefa.descricao, "Testando")
+        self.assertFalse(tarefa.concluida)
+
+
+        UUID(tarefa.id)
+
+ 
+        self.assertEqual(len(db_tarefas), 1)
+
+    def test_listar_tarefas(self):
+        criar_tarefa(TarefaBase(titulo="Tarefa A"))
+        criar_tarefa(TarefaBase(titulo="Tarefa B"))
+
+        tarefas = listar_tarefas()
+        self.assertEqual(len(tarefas), 2)
+
+    def test_obter_tarefa(self):
+        criada = criar_tarefa(TarefaBase(titulo="Teste"))
+
+        tarefa = obter_tarefa(criada.id)
+        self.assertEqual(tarefa.titulo, "Teste")
+
+    def test_atualizar_tarefa(self):
+        criada = criar_tarefa(TarefaBase(titulo="Original"))
+
+        atualizada = atualizar_tarefa(
+            criada.id,
+            TarefaBase(titulo="Atualizada", descricao="Nova desc", concluida=True)
+        )
+
+        self.assertEqual(atualizada.titulo, "Atualizada")
+        self.assertEqual(atualizada.descricao, "Nova desc")
+        self.assertTrue(atualizada.concluida)
+
+    def test_deletar_tarefa(self):
+        criada = criar_tarefa(TarefaBase(titulo="Excluir"))
+
+        deletar_tarefa(criada.id)
+
+        self.assertEqual(len(db_tarefas), 0)
+
+
+if __name__ == "__main__":
+    unittest.main()
